@@ -480,3 +480,5 @@ $RECYCLE.BIN/
 *.swp
 
 API/appsettings.json
+API/skinet.db-shm
+API/skinet.db-wal
