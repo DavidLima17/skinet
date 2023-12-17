@@ -33,7 +33,6 @@ namespace API.Controllers
         [HttpGet] // This is the route.
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            // var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value; // Get the email from the claims.
 
             var user = await _userManager.FindByEmailFromClaimsPrincipal(User); // Find the user by email.
 
@@ -55,7 +54,6 @@ namespace API.Controllers
         [HttpGet("address")] // This is the route.
         public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
-            // var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value; // Get the email from the claims.
 
             var user = await _userManager.FindUserByClaimsPrincipalWithAddressAsync(User); // Find the user by email.
 
@@ -66,7 +64,6 @@ namespace API.Controllers
         [HttpPut("address")] // This is the route.
         public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
         {
-            // var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value; // Get the email from the claims.
 
             var user = await _userManager.FindUserByClaimsPrincipalWithAddressAsync(HttpContext.User); // Find the user by email.
 
@@ -100,6 +97,11 @@ namespace API.Controllers
         [HttpPost("register")] // This is the route.
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if (CheckEmailExistsAsync(registerDto.Email).Result.Value) // Check if the email exists.
+            {
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is in use" } }); // If the email exists, return BadRequest.
+            }
+            
             var user = new AppUser // Create a new user.
             {
                 DisplayName = registerDto.DisplayName,

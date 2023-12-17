@@ -482,3 +482,5 @@ $RECYCLE.BIN/
 API/appsettings.json
 API/skinet.db-shm
 API/skinet.db-wal
+API/identity.db-shm
+API/identity.db-wal
