@@ -484,3 +484,6 @@ API/skinet.db-shm
 API/skinet.db-wal
 API/identity.db-shm
 API/identity.db-wal
+
+client/ssl/localhost-key.pem
+client/ssl/localhost.pem
