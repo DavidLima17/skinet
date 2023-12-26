@@ -1,3 +1,7 @@
+/**
+ * The routing module for the application.
+ * Defines the routes and their corresponding components.
+ */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -6,6 +10,10 @@ import { NotFoundComponent } from './core/not-found/not-found.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { AuthGuard } from './core/guards/auth.guard';
 
+/**
+ * The routes configuration for the application.
+ * Each route maps a URL path to a component or a lazy-loaded module.
+ */
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { breadcrumb: 'Home' } },
   { path: 'test-error', component: TestErrorComponent },
