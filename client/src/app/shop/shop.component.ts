@@ -18,7 +18,7 @@ export class ShopComponent implements OnInit {
     products: Product[] = [];
     brands: Brand[] = [];
     types: Type[] = [];
-    shopParams = new ShopParams();
+    shopParams: ShopParams;
     sortOptions = [
         { name: 'Alphabetical', value: 'name' },
         { name: 'Price: Low - High', value: 'priceAsc' },
@@ -26,7 +26,9 @@ export class ShopComponent implements OnInit {
     ];
     totalCount = 0;
 
-    constructor(private shopService: ShopService) {}
+    constructor(private shopService: ShopService) {
+        this.shopParams = this.shopService.getShopParams();
+    }
 
     /**
      * Initializes the component by calling the necessary methods to fetch products, brands, and types.
@@ -41,11 +43,9 @@ export class ShopComponent implements OnInit {
      * Fetches the products based on the shop parameters.
      */
     getProducts(): void {
-        this.shopService.getProducts(this.shopParams).subscribe({
+        this.shopService.getProducts().subscribe({
             next: (response) => {
                 this.products = response.data;
-                this.shopParams.pageNumber = response.pageIndex;
-                this.shopParams.pageSize = response.pageSize;
                 this.totalCount = response.count;
             },
             error: (error) => console.log(error),
@@ -57,7 +57,8 @@ export class ShopComponent implements OnInit {
      */
     getBrands(): void {
         this.shopService.getBrands().subscribe({
-            next: (response) => (this.brands = [{ id: 0, name: 'All' }, ...response]),
+            next: (response) =>
+                (this.brands = [{ id: 0, name: 'All' }, ...response]),
             error: (error) => console.log(error),
         });
     }
@@ -67,7 +68,8 @@ export class ShopComponent implements OnInit {
      */
     getTypes(): void {
         this.shopService.getTypes().subscribe({
-            next: (response) => (this.types = [{ id: 0, name: 'All' }, ...response]),
+            next: (response) =>
+                (this.types = [{ id: 0, name: 'All' }, ...response]),
             error: (error) => console.log(error),
         });
     }
@@ -77,8 +79,11 @@ export class ShopComponent implements OnInit {
      * @param brandId The ID of the selected brand.
      */
     onBrandSelected(brandId: number): void {
-        this.shopParams.brandId = brandId;
-        this.shopParams.pageNumber = 1;
+        const params = this.shopService.getShopParams();
+        params.brandId = brandId;
+        params.pageNumber = 1;
+        this.shopService.setShopParams(params);
+        this.shopParams = params;
         this.getProducts();
     }
 
@@ -87,8 +92,11 @@ export class ShopComponent implements OnInit {
      * @param typeId The ID of the selected type.
      */
     onTypeSelected(typeId: number): void {
-        this.shopParams.typeId = typeId;
-        this.shopParams.pageNumber = 1;
+        const params = this.shopService.getShopParams();
+        params.typeId = typeId;
+        params.pageNumber = 1;
+        this.shopService.setShopParams(params);
+        this.shopParams = params;
         this.getProducts();
     }
 
@@ -97,7 +105,10 @@ export class ShopComponent implements OnInit {
      * @param event The event object containing the selected sort option.
      */
     onSortSelected(event: any): void {
-        this.shopParams.sort = event.target.value;
+        const params = this.shopService.getShopParams();
+        params.sort = event.target.value;
+        this.shopService.setShopParams(params);
+        this.shopParams = params;
         this.getProducts();
     }
 
@@ -106,8 +117,11 @@ export class ShopComponent implements OnInit {
      * @param event The event object containing the new page number.
      */
     onPageChanged(event: any): void {
-        if (this.shopParams.pageNumber !== event) {
-            this.shopParams.pageNumber = event;
+        const params = this.shopService.getShopParams();
+        if (params.pageNumber !== event) {
+            params.pageNumber = event;
+            this.shopService.setShopParams(params);
+            this.shopParams = params;
             this.getProducts();
         }
     }
@@ -116,8 +130,11 @@ export class ShopComponent implements OnInit {
      * Handles the search action and updates the shop parameters accordingly.
      */
     onSearch(): void {
-        this.shopParams.search = this.searchTerm?.nativeElement.value;
-        this.shopParams.pageNumber = 1;
+        const params = this.shopService.getShopParams();
+        params.search = this.searchTerm?.nativeElement.value;
+        params.pageNumber = 1;
+        this.shopService.setShopParams(params);
+        this.shopParams = params;
         this.getProducts();
     }
 
@@ -129,6 +146,7 @@ export class ShopComponent implements OnInit {
             this.searchTerm.nativeElement.value = '';
         }
         this.shopParams = new ShopParams();
+        this.shopService.setShopParams(this.shopParams);
         this.getProducts();
     }
 }
