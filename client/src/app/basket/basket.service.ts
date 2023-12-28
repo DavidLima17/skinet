@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environements';
+import { environment } from 'src/environments/environment';
 import { Basket, BasketItem, BasketTotals } from '../shared/models/basket';
 import { BehaviorSubject, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -34,7 +34,6 @@ export class BasketService {
 
     setShippingPrice(deliveryMethod: DeliveryMethod) {
         const basket = this.getCurrentBasketValue();
-
 
         if (basket) {
             basket.deliveryMethodId = deliveryMethod.id;

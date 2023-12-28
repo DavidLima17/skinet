@@ -18,7 +18,8 @@ namespace API.Extensions
         {
             services.AddDbContext<AppIdentityDbContext>(x =>
             {
-                x.UseSqlite(config.GetConnectionString("IdentityConnection"));
+                // x.UseSqlite(config.GetConnectionString("IdentityConnection"));
+                x.UseNpgsql(config.GetConnectionString("IdentityConnection"));
             });
 
             services.AddIdentityCore<AppUser>(opt => // AddIdentityCore is used when we don't want to use Entity Framework.

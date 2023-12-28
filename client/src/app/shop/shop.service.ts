@@ -6,6 +6,7 @@ import { Brand } from '../shared/models/brand';
 import { Type } from '../shared/models/type';
 import { ShopParams } from '../shared/models/shopParams';
 import { Observable, map, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 /**
  * Service responsible for handling shop-related operations.
@@ -14,7 +15,7 @@ import { Observable, map, of } from 'rxjs';
     providedIn: 'root',
 })
 export class ShopService {
-    baseUrl = 'https://localhost:5001/api/';
+    baseUrl = environment.apiUrl;
     products: Product[] = [];
     brands: Brand[] = [];
     types: Type[] = [];
@@ -99,7 +100,7 @@ export class ShopService {
         );
 
         if (Object.keys(product).length > 0) return of(product);
-        
+
         return this.http.get<Product>(this.baseUrl + 'products/' + id);
     }
 
