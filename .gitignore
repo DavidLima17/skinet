@@ -490,3 +490,5 @@ API/identity.db-wal
 .vscode/launch.json
 .vscode/extensions.json
 client/ssl/*
+/client/ssl
+/.vscode
