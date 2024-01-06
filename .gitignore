@@ -381,10 +381,10 @@ FodyWeavers.xsd
 
 # VS Code files for those working on multiple tools
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
 *.code-workspace
 
 # Local History for Visual Studio Code
@@ -484,6 +484,9 @@ API/skinet.db-shm
 API/skinet.db-wal
 API/identity.db-shm
 API/identity.db-wal
-
-client/ssl/localhost-key.pem
-client/ssl/localhost.pem
+.vscode/*
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+client/ssl/*
